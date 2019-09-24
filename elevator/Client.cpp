@@ -90,15 +90,8 @@ int Client::get_next_floor() const {
 
 }
 
-bool Client::is_aboard() const {
-
-	return aboard;
-
-}
-
 void Client::board(int e_id) {
 
-	aboard = true;
 	elevator_id = e_id;
 
 }

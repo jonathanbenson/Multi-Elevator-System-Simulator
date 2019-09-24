@@ -1,3 +1,7 @@
-﻿  Elevator.cpp
+﻿  Client.cpp
+  Elevator.cpp
+  Source.cpp
 C:\Users\iamjo\Documents\school\cs303\projects\1\elevator\elevator\Elevator.cpp(79,13): warning C4244:  'return': conversion from 'double' to 'int', possible loss of data
+  Generating Code...
+C:\Users\iamjo\Documents\school\cs303\projects\1\elevator\elevator\Source.cpp(11,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   elevator.vcxproj -> C:\Users\iamjo\Documents\school\cs303\projects\1\elevator\elevator\x64\Debug\elevator.exe

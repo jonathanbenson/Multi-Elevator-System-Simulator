@@ -5,7 +5,6 @@ class Client {
 
 private:
 
-	bool aboard = false;
 	int current_floor, next_floor;
 
 	int elevator_id = -1;

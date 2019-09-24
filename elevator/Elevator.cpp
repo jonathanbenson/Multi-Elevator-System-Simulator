@@ -178,6 +178,9 @@ void Elevator::send_outbound(Client& c) {
 	// record the client's second time punch for getting on the elevator
 	c.time_punch(1, time);
 
+	// assign the client's elevator id to the current elevator's id
+	c.board(id);
+
 	if (c.get_next_floor() == floor) {
 
 		// this is the special case...
