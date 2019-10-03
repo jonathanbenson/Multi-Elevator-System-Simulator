@@ -1,9 +1,0 @@
-
-
-struct client {
-
-	int current_floor, next_floor, time_punches[3];
-	
-	struct client* next;
-
-};

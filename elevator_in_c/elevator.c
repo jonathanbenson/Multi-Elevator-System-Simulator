@@ -131,7 +131,7 @@ int get_distance_elevator_node_c(struct elevator* e, struct node n) {
 				// elevator is passsed the client already going down
 
 				if (!is_empty_priority_queue(&e->downward_inbound)) {
-					// there is a client waiting to be dropped off in the downward inbound queue on their current floor
+					// there is a client waiting to be picked pu in the downward inbound queue on their current floor
 
 					return abs(e->current_floor - e->downward_inbound.head->c.current_floor)
 							+ abs(e->current_floor - n.c.current_floor);
@@ -140,7 +140,7 @@ int get_distance_elevator_node_c(struct elevator* e, struct node n) {
 
 				}
 				else {
-					// there is a client waiting to be picked up in the downward outbound queue on their next floor
+					// there is a client waiting to be dropped off in the downward outbound queue on their next floor
 
 					return abs(e->current_floor - e->downward_outbound.head->c.next_floor)
 							+ abs(e->current_floor - n.c.current_floor);

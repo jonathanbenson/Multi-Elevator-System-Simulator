@@ -12,8 +12,6 @@ int main() {
 	
 	srand(time(NULL));
 	
-	
-
 	const int BOTTOM_FLOOR = 0, TOP_FLOOR = 50;
 	const int NUM_ELEVATORS = 8;
 	const int NUM_CLIENTS = 100;
@@ -90,7 +88,7 @@ int main() {
 		
 			e = get_closest_elevators_node_c(elevators, NUM_ELEVATORS, *current); // selecting the closest elevator
 		
-			// e = &elevators[rand() % NUM_ELEVATORS]; // selecting a random elevator
+			//e = &elevators[rand() % NUM_ELEVATORS]; // selecting a random elevator
 
 			if (e->state == IDLE) {
 				
@@ -323,13 +321,15 @@ int main() {
 	m = total_time % 3600 / 60;
 	s = total_time % 3600 % 60;
 
+	printf("----------------------------------------\n");
 	printf("Multi-Elevator System Simulation Summary\n");
+	printf("----------------------------------------\n");
 	printf("%d Elevators, %d Clients\n", NUM_ELEVATORS, NUM_CLIENTS);
 	printf("Bottom Floor: %d, Top Floor: %d\n", BOTTOM_FLOOR, TOP_FLOOR);
 	printf("Elevator speed: %d seconds to traverse one floor\n", ap);
 	printf("Elevator idle: %d seconds to pick up or drop off a client\n", ip);
 	printf("Total Time: %d hours %d minutes %d seconds\n", h, m, s);
-	printf("Average process time of clients: %d minutes %d seconds", avg_process_time / 60, avg_process_time % 60);
+	printf("Average process time of each client: %d minutes %d seconds\n\n", avg_process_time / 60, avg_process_time % 60);
 	
 
 	free(elevators);
