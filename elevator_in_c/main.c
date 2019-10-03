@@ -15,7 +15,7 @@ int main() {
 	
 
 	const int BOTTOM_FLOOR = 0, TOP_FLOOR = 10;
-	const int NUM_ELEVATORS = 5;
+	const int NUM_ELEVATORS = 4;
 	const int NUM_CLIENTS = 100;
 
 
@@ -275,7 +275,7 @@ int main() {
 	struct client c;
 
 	int total_time = 0;
-	int avg_process_time = 0;
+	float avg_process_time = 0.0f;
 
 	for (i = 0; i < NUM_ELEVATORS; ++i) {
 		// iterate through all the elevators
@@ -285,41 +285,45 @@ int main() {
 		current = e->record.head;
 
 		printf("Elevator #%d's record:\n", i + 1);
+		printf("---------------------------------------------------\n");
+		printf("starting floor | next floor | tp[0] | tp[1] | tp[2]\n");
+		printf("---------------------------------------------------\n");
 
 		while (current != NULL) {
 			
 			c = current->c;
 
-			avg_process_time += (c.time_punches[2] - c.time_punches[0]);
+			avg_process_time += (float)(c.time_punches[2] - c.time_punches[0]);
 
 			if (c.time_punches[2] > total_time)
 				total_time = c.time_punches[2];
 			
 			// output all of the clients' starting floor, next floor, and time punches
-			printf("%d %d %d %d %d\n", c.current_floor, c.next_floor, c.time_punches[0], c.time_punches[1], c.time_punches[2]);
+			printf("%d | %d | %d | %d | %d\n", c.current_floor, c.next_floor, c.time_punches[0], c.time_punches[1], c.time_punches[2]);
 			current = current->next;
 		}
 
-
 		printf("\n\n");
-
-		avg_process_time /= NUM_CLIENTS;
-
-		int h, m, s;
-
-		h = total_time / 3600;
-		m = total_time % 3600 / 60;
-		s = total_time % 3600 % 60;
-
-		printf("%d Elevators, %d Clients\n", NUM_ELEVATORS, NUM_CLIENTS);
-		printf("Bottom Floor: %d, Top Floor: %d\n", BOTTOM_FLOOR, TOP_FLOOR);
-		printf("Elevator speed: %d seconds per floor\n", ap);
-		printf("Elevator idle: %d seconds per floor with client\n", ip);
-		printf("Total Time: %d:%d:%d\n", h, m, s);
-		printf("Average process time of clients: %d seconds", avg_process_time);
-		
 		
 	}
+
+	printf("\n\n");
+
+	avg_process_time /= (float)NUM_CLIENTS;
+
+	int h, m, s;
+
+	h = total_time / 3600;
+	m = total_time % 3600 / 60;
+	s = total_time % 3600 % 60;
+
+	printf("%d Elevators, %d Clients\n", NUM_ELEVATORS, NUM_CLIENTS);
+	printf("Bottom Floor: %d, Top Floor: %d\n", BOTTOM_FLOOR, TOP_FLOOR);
+	printf("Elevator speed: %d seconds per floor\n", ap);
+	printf("Elevator idle: %d seconds per floor with client\n", ip);
+	printf("Total Time: %d:%d:%d\n", h, m, s);
+	printf("Average process time of clients: %.2f seconds", avg_process_time);
+	
 
 	free(elevators);
 	
