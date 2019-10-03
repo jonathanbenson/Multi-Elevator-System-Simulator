@@ -2,6 +2,7 @@
 #include "client.h"
 
 struct client construct_random_client(int cfr[2], int nfr[2], int tp0r[2]) {
+	// construct a random client
 	
 	struct client c;
 	

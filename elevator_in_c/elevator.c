@@ -5,7 +5,8 @@
 
 
 struct elevator construct_elevator(int cf, int ap, int ip) {
-	
+	// constructs a defined elevator
+
 	struct elevator e;
 		
 	e.direction = NA;
@@ -30,7 +31,8 @@ struct elevator construct_elevator(int cf, int ap, int ip) {
 }
 
 struct elevator construct_random_elevator(int cfr[2], int ap, int ip) {
-	
+	// construct an elevator with a random starting floor
+
 	struct elevator e;
 	
 	e.direction = NA;
@@ -54,6 +56,7 @@ struct elevator construct_random_elevator(int cfr[2], int ap, int ip) {
 }
 
 int is_elevator_empty(struct elevator* e) {
+	// checks if an elevator's 4 priority queues are empty
 	
 	if (	
 			e->downward_inbound.head == NULL &&
@@ -73,6 +76,7 @@ int is_elevator_empty(struct elevator* e) {
 }
 
 int are_empty_elevators(struct elevator* es, const int SIZE) {
+	// checks if all the elevators in an array of elevators are empty
 
 	for (int i = 0; i < SIZE; ++i)
 		if (!is_elevator_empty(&es[i]))
@@ -83,6 +87,7 @@ int are_empty_elevators(struct elevator* es, const int SIZE) {
 }
 
 struct elevator* get_closest_elevators_node_c(struct elevator* es, const int SIZE, struct node n) {
+	// returns a pointer to the closest elevator to a client
 
 	struct elevator* closest = &es[0];
 
@@ -95,12 +100,9 @@ struct elevator* get_closest_elevators_node_c(struct elevator* es, const int SIZ
 }
 
 int get_distance_elevator_node_c(struct elevator* e, struct node n) {
-
-
+	// computes the distance (in floor) an elevator is to a client
 
 	if (is_elevator_empty(e)) {
-
-
 
 		return abs(e->current_floor - n.c.current_floor);
 
@@ -201,7 +203,8 @@ void push_node_inbound_elevator(struct elevator* e, struct node n, int t) {
 }
 
 void push_node_outbound_elevator(struct elevator* e, struct node n, int t) {
-	
+	// pushes a client outbound and records their second time punch
+
 	n.c.time_punches[1] = t;
 
 	if (n.c.next_floor < e->current_floor)
@@ -217,6 +220,7 @@ void push_node_outbound_elevator(struct elevator* e, struct node n, int t) {
 }
 
 void push_node_record_elevator(struct elevator* e, struct node n, int t) {
+	// pushes a client to the record of the elevator and records their third time punch
 
 	n.c.time_punches[2] = t;
 	
@@ -230,6 +234,7 @@ void push_node_record_elevator(struct elevator* e, struct node n, int t) {
 }
 
 int should_change_direction_elevator(struct elevator* e) {
+	// decides if the elevator should change direction based on its queues and current direction
 
 	if (e->direction == DOWN) {
 		if (is_empty_priority_queue(&e->downward_inbound) && is_empty_priority_queue(&e->downward_outbound))
@@ -245,6 +250,7 @@ int should_change_direction_elevator(struct elevator* e) {
 
 }
 void change_direction_elevator(struct elevator* e) {
+	// changes the direction of the elevator depending on its current direction
 
 	if (e->direction == DOWN)
 		e->direction = UP;
@@ -256,6 +262,7 @@ void change_direction_elevator(struct elevator* e) {
 
 
 void free_elevator(struct elevator* e) {
+	// frees up the memory of an elevator
 	
 	free_priority_queue(&e->downward_inbound);
 	free_priority_queue(&e->upward_inbound);

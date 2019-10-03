@@ -1,4 +1,6 @@
 
+// Main simulation
+
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
@@ -10,12 +12,14 @@ int main() {
 	
 	srand(time(NULL));
 	
-	// generation of elevator
+	
 
 	const int BOTTOM_FLOOR = 0, TOP_FLOOR = 10;
 	const int NUM_ELEVATORS = 5;
 	const int NUM_CLIENTS = 100;
 
+
+	// Generation of elevators
 	struct elevator* elevators = (struct elevator*)malloc(sizeof(struct elevator) * NUM_ELEVATORS);
 
 
@@ -28,15 +32,19 @@ int main() {
 
 		elevators[i] = construct_random_elevator(cfre, ap, ip);
 
+		printf("Elevator #%d: Starting floor = %d, Active Period = %d, Idle Period = %d\n", i + 1,
+																							elevators[i].current_floor,
+																								elevators[i].active_period,
+																									elevators[i].idle_period);
+
+
 	}
-	
 
+	printf("\n\n");
 	
-
+	// Generation of random clients
 
 	struct priority_queue incoming_clients = construct_empty_priority_queue();
-	
-	
 	
 	struct node new_node;
 	struct client random_client;
@@ -58,6 +66,8 @@ int main() {
 		
 	}
 	
+	printf("Incoming Clients (sorted by first time punch ascending): \n");
+
 	write_priority_queue_console(&incoming_clients, get_node_c_time_punches_0);
 	printf("\n\n");
 	
@@ -71,12 +81,13 @@ int main() {
 	struct elevator* e;
 
 	while (!is_empty_priority_queue(&incoming_clients) || !are_empty_elevators(elevators, NUM_ELEVATORS)) {
+		// while the incoming clients queue is not empty and all the elevators are not empty
 
 		current = incoming_clients.head;
 
 		while (current != NULL && current->c.time_punches[0] == time) {
 
-			// choose a random elevator
+			// get the closest elevator
 			e = get_closest_elevators_node_c(elevators, NUM_ELEVATORS, *current);
 		
 			if (e->state == IDLE) {
@@ -148,15 +159,18 @@ int main() {
 					else
 						push_priority_queue(&e->downward_inbound, *current, cmp_node_c_current_floor, 1);
 					
-					pop_priority_queue(&incoming_clients);
 					
 				}
 				else {
 					// send inbound
 					
 					push_node_inbound_elevator(e, *current, time);
-					pop_priority_queue(&incoming_clients);
+					
 				}
+
+				pop_priority_queue(&incoming_clients);
+
+				
 			}
 
 			current = current->next;
@@ -164,7 +178,6 @@ int main() {
 
 
 		for (i = 0; i < NUM_ELEVATORS; ++i) {
-			// handle state and direction with stopwatches
 
 			e = &elevators[i];
 
@@ -217,7 +230,7 @@ int main() {
 			}
 
 
-		//
+		// Handling of state and direction via the elevator's stopwatches
 
 			if (e->direction != NA) {
 				if (e->state == IDLE) {
@@ -261,7 +274,11 @@ int main() {
 
 	struct client c;
 
+	int total_time = 0;
+	int avg_process_time = 0;
+
 	for (i = 0; i < NUM_ELEVATORS; ++i) {
+		// iterate through all the elevators
 
 		e = &elevators[i];
 
@@ -272,15 +289,36 @@ int main() {
 		while (current != NULL) {
 			
 			c = current->c;
+
+			avg_process_time += (c.time_punches[2] - c.time_punches[0]);
+
+			if (c.time_punches[2] > total_time)
+				total_time = c.time_punches[2];
 			
+			// output all of the clients' starting floor, next floor, and time punches
 			printf("%d %d %d %d %d\n", c.current_floor, c.next_floor, c.time_punches[0], c.time_punches[1], c.time_punches[2]);
 			current = current->next;
 		}
 
 
 		printf("\n\n");
+
+		avg_process_time /= NUM_CLIENTS;
+
+		int h, m, s;
+
+		h = total_time / 3600;
+		m = total_time % 3600 / 60;
+		s = total_time % 3600 % 60;
+
+		printf("%d Elevators, %d Clients\n", NUM_ELEVATORS, NUM_CLIENTS);
+		printf("Bottom Floor: %d, Top Floor: %d\n", BOTTOM_FLOOR, TOP_FLOOR);
+		printf("Elevator speed: %d seconds per floor\n", ap);
+		printf("Elevator idle: %d seconds per floor with client\n", ip);
+		printf("Total Time: %d:%d:%d\n", h, m, s);
+		printf("Average process time of clients: %d seconds", avg_process_time);
 		
-		free_elevator(e);
+		
 	}
 
 	free(elevators);

@@ -14,6 +14,7 @@ struct priority_queue {
 
 };
 
+// comparative functions for pushing clients to a priority queue
 int cmp_node_c_time_punch_0(struct node* a, struct node* b, int descending);
 int cmp_node_c_time_punch_2(struct node* a, struct node* b, int descending);
 int cmp_node_c_current_floor(struct node* a, struct node* b, int descending);
