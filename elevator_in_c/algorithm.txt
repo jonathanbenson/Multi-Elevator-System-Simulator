@@ -17,7 +17,7 @@ while the incoming clients queue is not empty and all the elevators are not empt
 
 	for each incoming client who's first time punch is equal to the current time
 
-		get the closest elevator to the client from the array of elevators
+		get the closest elevator to the client from the array of elevators // algorithm below
 
 		if the elevator is idle
 
@@ -112,8 +112,15 @@ while the incoming clients queue is not empty and all the elevators are not empt
 
 
 
+--------------------------
+Closest Elevator Algorithm
+--------------------------
 
+given an array of elevators and a client
 
+for each elevator in the array of elevators
+
+	...
 
 
 

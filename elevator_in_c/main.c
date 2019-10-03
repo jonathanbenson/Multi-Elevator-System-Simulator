@@ -14,8 +14,8 @@ int main() {
 	
 	
 
-	const int BOTTOM_FLOOR = 0, TOP_FLOOR = 10;
-	const int NUM_ELEVATORS = 4;
+	const int BOTTOM_FLOOR = 0, TOP_FLOOR = 50;
+	const int NUM_ELEVATORS = 8;
 	const int NUM_CLIENTS = 100;
 
 
@@ -24,7 +24,7 @@ int main() {
 
 
 	int cfre[] = {BOTTOM_FLOOR, TOP_FLOOR};
-	int ap = 2, ip = 10;
+	int ap = 2, ip = 5;
 	
 	int i;
 
@@ -87,9 +87,11 @@ int main() {
 
 		while (current != NULL && current->c.time_punches[0] == time) {
 
-			// get the closest elevator
-			e = get_closest_elevators_node_c(elevators, NUM_ELEVATORS, *current);
 		
+			e = get_closest_elevators_node_c(elevators, NUM_ELEVATORS, *current); // selecting the closest elevator
+		
+			// e = &elevators[rand() % NUM_ELEVATORS]; // selecting a random elevator
+
 			if (e->state == IDLE) {
 				
 				if (e->direction == NA) {
@@ -185,7 +187,7 @@ int main() {
 
 			// iterate through inbound queues
 		
-			e->idle_stopwatch = 0;	
+			
 				
 			if (e->direction != NA) {
 				
@@ -229,7 +231,7 @@ int main() {
 				
 			}
 
-
+			
 		// Handling of state and direction via the elevator's stopwatches
 
 			if (e->direction != NA) {
@@ -245,7 +247,11 @@ int main() {
 					}
 					else {
 
+						
+
 						e->idle_stopwatch--;
+
+
 
 					}
 				}
@@ -275,7 +281,7 @@ int main() {
 	struct client c;
 
 	int total_time = 0;
-	float avg_process_time = 0.0f;
+	int avg_process_time = 0;
 
 	for (i = 0; i < NUM_ELEVATORS; ++i) {
 		// iterate through all the elevators
@@ -293,7 +299,7 @@ int main() {
 			
 			c = current->c;
 
-			avg_process_time += (float)(c.time_punches[2] - c.time_punches[0]);
+			avg_process_time += (c.time_punches[2] - c.time_punches[0]);
 
 			if (c.time_punches[2] > total_time)
 				total_time = c.time_punches[2];
@@ -309,7 +315,7 @@ int main() {
 
 	printf("\n\n");
 
-	avg_process_time /= (float)NUM_CLIENTS;
+	avg_process_time /= NUM_CLIENTS;
 
 	int h, m, s;
 
@@ -317,12 +323,13 @@ int main() {
 	m = total_time % 3600 / 60;
 	s = total_time % 3600 % 60;
 
+	printf("Multi-Elevator System Simulation Summary\n");
 	printf("%d Elevators, %d Clients\n", NUM_ELEVATORS, NUM_CLIENTS);
 	printf("Bottom Floor: %d, Top Floor: %d\n", BOTTOM_FLOOR, TOP_FLOOR);
-	printf("Elevator speed: %d seconds per floor\n", ap);
-	printf("Elevator idle: %d seconds per floor with client\n", ip);
-	printf("Total Time: %d:%d:%d\n", h, m, s);
-	printf("Average process time of clients: %.2f seconds", avg_process_time);
+	printf("Elevator speed: %d seconds to traverse one floor\n", ap);
+	printf("Elevator idle: %d seconds to pick up or drop off a client\n", ip);
+	printf("Total Time: %d hours %d minutes %d seconds\n", h, m, s);
+	printf("Average process time of clients: %d minutes %d seconds", avg_process_time / 60, avg_process_time % 60);
 	
 
 	free(elevators);
