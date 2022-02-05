@@ -1,4 +1,7 @@
 
+#ifndef ELEVATOR_H
+#define ELEVATOR_H
+
 #include "priority_queue.h"
 
 struct elevator {
@@ -37,3 +40,5 @@ int should_change_direction_elevator(struct elevator* e);
 void change_direction_elevator(struct elevator* e);
 
 void free_elevator(struct elevator* e);
+
+#endif

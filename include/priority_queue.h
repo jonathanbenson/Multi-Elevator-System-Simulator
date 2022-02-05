@@ -1,4 +1,7 @@
 
+#ifndef PRIORITY_QUEUE_H
+#define PRIORITY_QUEUE_H
+
 #include "client.h"
 
 struct node {
@@ -42,4 +45,4 @@ void free_priority_queue(struct priority_queue* pq);
 void write_priority_queue_console(struct priority_queue* pc, int (*get_val)(struct node*));
 
 
-
+#endif
