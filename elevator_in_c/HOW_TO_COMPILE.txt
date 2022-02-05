@@ -1,8 +1,0 @@
-
-1. Open Developer Command Prompt for VS
-
-2. cd to the source directory "elevator_in_c"
-
-3. Type command "cl main.c client.c elevator.c priority_queue.c"
-
-4. To run, just type "main.exe"
