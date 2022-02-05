@@ -230,7 +230,7 @@ int main() {
 			}
 
 			
-		// Handling of state and direction via the elevator's stopwatches
+			// Handling of state and direction via the elevator's stopwatches
 
 			if (e->direction != NA) {
 				if (e->state == IDLE) {
@@ -289,9 +289,9 @@ int main() {
 		current = e->record.head;
 
 		printf("Elevator #%d's record:\n", i + 1);
-		printf("---------------------------------------------------\n");
-		printf("starting floor | next floor | tp[0] | tp[1] | tp[2]\n");
-		printf("---------------------------------------------------\n");
+		printf("----------------------------------------------------------------------------------\n");
+		printf("starting floor\t| next floor\t| button press\t| get on\t| get off\n");
+		printf("----------------------------------------------------------------------------------\n");
 
 		while (current != NULL) {
 			
@@ -302,8 +302,8 @@ int main() {
 			if (c.time_punches[2] > total_time)
 				total_time = c.time_punches[2];
 			
-			// output all of the clients' starting floor, next floor, and time punches
-			printf("%d | %d | %d | %d | %d\n", c.current_floor, c.next_floor, c.time_punches[0], c.time_punches[1], c.time_punches[2]);
+			// output all of the clients' starting floor, next floor, the elevator button press, when they got on, when they got off
+			printf(" %d\t\t| %d\t\t| %d\t\t| %d\t\t| %d\n", c.current_floor, c.next_floor, c.time_punches[0], c.time_punches[1], c.time_punches[2]);
 			current = current->next;
 		}
 
@@ -327,7 +327,7 @@ int main() {
 	printf("%d Elevators, %d Clients\n", NUM_ELEVATORS, NUM_CLIENTS);
 	printf("Bottom Floor: %d, Top Floor: %d\n", BOTTOM_FLOOR, TOP_FLOOR);
 	printf("Elevator speed: %d seconds to traverse one floor\n", ap);
-	printf("Elevator idle: %d seconds to pick up or drop off a client\n", ip);
+	printf("Elevator idle: %d seconds to pick up or drop off all clients on a floor\n", ip);
 	printf("Total Time: %d hours %d minutes %d seconds\n", h, m, s);
 	printf("Average process time of each client: %d minutes %d seconds\n\n", avg_process_time / 60, avg_process_time % 60);
 	
